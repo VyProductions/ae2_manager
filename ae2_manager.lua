@@ -116,5 +116,16 @@ local decompress = function(itemName)
     end
 end
 
-compress(MC.."iron_block")
--- decompress(MC.."iron_ingot")
+if arg[1] == "C" then
+    if inv.compressing[arg[2]] then
+        compress(arg[2])
+    else
+        print("Invalid item to compress to: "..arg[2])
+    end
+elseif arg[1] == "D" then
+    if inv.decompressing[arg[2]] then
+        decompress(arg[2])
+    else
+        print("Invalid item to decompress to: "..arg[2])
+    end
+end
