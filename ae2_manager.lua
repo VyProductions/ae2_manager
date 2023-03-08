@@ -78,6 +78,8 @@ local compress = function(itemName)
 
                 if not succ then error(err) else print(craft_size.."x "..itemName.." craft job started.") end
 
+                repeat os.sleep(1) until MEB.isItemCrafting({name = itemName})
+
                 craft_cnt = craft_cnt - craft_size
             end
 
