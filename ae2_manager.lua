@@ -73,7 +73,7 @@ local compress = function(itemName)
         while not done do
             if not MEB.isItemCrafting({name = itemName}) and craft_cnt > 0 then
                 local craft_size = math.min(math.floor(storage_amnt / byte_per_craft) - 1, craft_cnt)
-                print(itemName.." is not crafting. Starting new job of size "..craft_size)
+                print(itemName.." is not crafting.")
                 local succ, err = MEB.craftItem({name = itemName, count = craft_size})
 
                 if not succ then error(err) else print(craft_size.."x "..itemName.." craft job started.") end
