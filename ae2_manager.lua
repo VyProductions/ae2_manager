@@ -17,25 +17,117 @@ local inv = {}
 ]]
 
 inv.compressing = {
-    [MC.."coal_block"]     = { src_n = MC.."coal",         src_cnt = 9, max = 512 },
-    [MC.."copper_block"]   = { src_n = MC.."copper_ingot", src_cnt = 9, max = 512 },
-    [MC.."iron_block"]     = { src_n = MC.."iron_ingot",   src_cnt = 9, max = 512 },
-    [MC.."lapis_block"]    = { src_n = MC.."lapis_lazuli", src_cnt = 9, max = 512 },
-    [MC.."gold_block"]     = { src_n = MC.."gold_ingot",   src_cnt = 9, max = 512 },
-    [MC.."redstone_block"] = { src_n = MC.."redstone",     src_cnt = 9, max = 512 },
-    [MC.."diamond_block"]  = { src_n = MC.."diamond",      src_cnt = 9, max = 512 },
-    [MC.."emerald_block"]  = { src_n = MC.."emerald",      src_cnt = 9, max = 512 }
+    nine_by = {
+        [MC.."coal_block"] = {
+            item_1 = {name = MC.."coal", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        },
+        [MC.."copper_block"] = {
+            item_1 = {name = MC.."copper_ingot", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        },
+        [MC.."iron_block"] = {
+            item_1 = {name = MC.."iron_ingot", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        },
+        [MC.."lapis_block"]    = {
+            item_1 = {name = MC.."lapis_lazuli", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        },
+        [MC.."gold_block"]     = {
+            item_1 = {name = MC.."gold_ingot", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        },
+        [MC.."redstone_block"] = {
+            item_1 = {name = MC.."redstone", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        },
+        [MC.."diamond_block"]  = {
+            item_1 = {name = MC.."diamond", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        },
+        [MC.."emerald_block"]  = {
+            item_1 = {name = MC.."emerald", item_cnt = 9},
+            total  = 9,
+            output = 1,
+            max    = 512
+        }
+    }
 }
 
 inv.decompressing = {
-    [MC.."coal"]         = { src_n = MC.."coal_block",    min = 64, max = 2048 },
-    [MC.."copper_ingot"] = { src_n = MC.."copper_block",  min = 64, max = 2048 },
-    [MC.."iron_ingot"]   = { src_n = MC.."iron_block",    min = 64, max = 2048 },
-    [MC.."lapis"]        = { src_n = MC.."lapis_block",   min = 64, max = 2048 },
-    [MC.."gold_ingot"]   = { src_n = MC.."gold_block",    min = 64, max = 2048 },
-    [MC.."redstone"]     = { src_n = MC.."redston_block", min = 64, max = 2048 },
-    [MC.."diamond"]      = { src_n = MC.."diamond_block", min = 64, max = 2048 },
-    [MC.."emerald"]      = { src_n = MC.."emerald_block", min = 64, max = 2048 }
+    by_nine = {
+        [MC.."coal"] = {
+            item_1  = {name = MC.."coal_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        },
+        [MC.."copper_ingot"] = {
+            item_1 = {name = MC.."copper_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        },
+        [MC.."iron_ingot"] = {
+            item_1 = {name = MC.."iron_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        },
+        [MC.."lapis"] = {
+            item_1 = {name = MC.."lapis_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        },
+        [MC.."gold_ingot"] = {
+            item_1 = {name = MC.."gold_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        },
+        [MC.."redstone"] = {
+            item_1 = {name = MC.."redstone_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        },
+        [MC.."diamond"] = {
+            item_1 = {name = MC.."diamond_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        },
+        [MC.."emerald"] = {
+            item_1 = {name = MC.."emerald_block", item_cnt = 1},
+            total  = 1,
+            output = 9,
+            min    = 64,
+            max    = 2048
+        }
+    }
 }
 
 -- Compress when:
@@ -62,7 +154,7 @@ local compress = function(itemName)
     local src_min    = inv.decompressing[item.src_n].min
     local src_cost   = item.src_cnt
 
-    local byte_per_craft = 2 + src_cost
+    local byte_per_craft = 3 + src_cost
 
     if src_cnt >= src_min + src_cost and item_cnt < item_max then
         local craft_cnt = math.min(item_max - item_cnt, math.floor((src_cnt - src_min) / src_cost))
@@ -118,16 +210,21 @@ local decompress = function(itemName)
     end
 end
 
-if arg[1] == "C" then
-    if inv.compressing[arg[2]] then
-        compress(arg[2])
-    else
-        print("Invalid item to compress to: "..arg[2])
-    end
-elseif arg[1] == "D" then
-    if inv.decompressing[arg[2]] then
-        decompress(arg[2])
-    else
-        print("Invalid item to decompress to: "..arg[2])
+local craftedFrom = function(itemName)
+    if inv.compressing.nine_by.itemName then
+        return inv.compressing.nine_by.itemName
+    elseif inv.decompressing.by_nine then
+        return inv.decompressing.by_nine.itemName
     end
 end
+
+local computeBytes = function(item)
+    local recipe = craftedFrom(item.name)
+    return 16 + (
+        recipe.total +  -- Number of items in recipe
+        1 +             -- Number of crafts required to produce item
+        recipe.output   -- Number of items produced by craft
+    ) * item.count
+end
+
+print(computeBytes({name = MC.."iron_block", count = 1}))
