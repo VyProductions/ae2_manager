@@ -216,6 +216,8 @@ local craftedFrom = function(itemName)
         return inv.compressing.nine_by.itemName
     elseif inv.decompressing.by_nine then
         return inv.decompressing.by_nine.itemName
+    else
+        print("Unknown recipe for "..itemName)
     end
 end
 
